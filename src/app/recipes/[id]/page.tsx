@@ -45,9 +45,10 @@ export default function RecipePage() {
       <div className='w-[80%] flex flex-row justify-center items-center p-4'>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>
           <img src={recipe.imageUrl} alt={recipe.title} className="max-h-84 object-cover rounded mb-4" />
-          <p className="text-gray-700">{recipe.description}</p>
+          <p className="text-gray-700">{recipe.description ?? 'Aucune description disponible.'}</p>
         </div>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>
+          <span className='text-2xl underline text-gray-600'>Ingrédients</span>
           {recipe.ingredients.map((ingredient, index) => (
             <ul key={index} className="flex items-center">
               <li className="text-gray-600">{ingredient}</li>
