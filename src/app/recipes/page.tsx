@@ -41,7 +41,7 @@ export default function RecipesPage() {
       <div className="flex flex-row flex-wrap gap-4">
         {recipes.map((recipe) => (
           <Link key={recipe._id} href={`/recipes/${recipe._id}`}>
-            <div className="border p-4 rounded shadow-sm h-max-16">
+            <div className="border p-4 rounded shadow-sm">
               <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-48 object-cover rounded mb-4" />
               <h2 className="text-xl font-semibold hover:underline">{recipe.title}</h2>
               <p className="text-gray-600">{recipe.description}</p>

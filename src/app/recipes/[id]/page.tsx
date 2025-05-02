@@ -6,8 +6,9 @@ import { useParams } from 'next/navigation';
 type Recipe = {
   _id: string;
   title: string;
+  ingredients: string[];
   description: string;
-  // Add other fields as needed
+  imageUrl: string;
 };
 
 export default function RecipePage() {
@@ -33,15 +34,27 @@ export default function RecipePage() {
     if (id) fetchRecipe();
   }, [id]);
 
-  if (loading) return <p className="p-4">Loading...</p>;
+  if (loading) return <p className="w-full flex flex-col items-center justify-center text-4xl">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
   if (!recipe) return <p className="p-4">No recipe found.</p>;
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
-      <p className="text-gray-700">{recipe.description}</p>
-      {/* Add more fields as needed */}
-    </main>
+    <div className='w-full flex flex-col justify-center items-center p-4'>
+      <h1 className='text-3xl font-bold mb-4'>{recipe.title}</h1>
+
+      <div className='w-[80%] flex flex-row justify-center items-center p-4'>
+        <div className='w-[40%] flex flex-col justify-center items-center p-4'>
+          <img src={recipe.imageUrl} alt={recipe.title} className="max-h-84 object-cover rounded mb-4" />
+          <p className="text-gray-700">{recipe.description}</p>
+        </div>
+        <div className='w-[40%] flex flex-col justify-center items-center p-4'>
+          {recipe.ingredients.map((ingredient, index) => (
+            <ul key={index} className="flex items-center">
+              <li className="text-gray-600">{ingredient}</li>
+            </ul>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
