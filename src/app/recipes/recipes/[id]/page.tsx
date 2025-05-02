@@ -1,32 +1,30 @@
-// /src/app/recipes/[id]/page.tsx
-import { getRecipeById } from "@/lib/recipeService";
-import { notFound } from "next/navigation";
-
-type Params = {
-  params: {
-    id: string;
-  };
+type Recipe = {
+  _id: string;
+  title: string;
+  ingredients: string[];
+  instructions: string;
 };
 
-export default async function RecipeDetailPage({ params }: Params) {
-  const recipe = await getRecipeById(params.id);
+async function getRecipe(id: string): Promise<Recipe> {
+  const res = await fetch(`http://localhost:3000/api/recipes/${id}`, {
+    cache: 'no-store',
+  });
 
-  if (!recipe) return notFound();
+  if (!res.ok) {
+    throw new Error('Failed to fetch recipe');
+  }
+
+  return res.json();
+}
+
+export default async function RecipePage({ params }: { params: { id: string } }) {
+  const recipe = await getRecipe(params.id);
 
   return (
-    <main className="p-6">
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
-      <p className="mb-4">{recipe.description}</p>
-
-      <h2 className="text-xl font-semibold">Ingredients:</h2>
-      <ul className="list-disc pl-5 mb-4">
-        {recipe.ingredients.map((item: string, i: number) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
-
-      <h2 className="text-xl font-semibold">Instructions:</h2>
-      <p>{recipe.instructions}</p>
-    </main>
+      <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
+      <p><strong>Instructions:</strong> {recipe.instructions}</p>
+    </div>
   );
 }
