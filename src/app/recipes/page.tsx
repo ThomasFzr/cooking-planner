@@ -7,6 +7,7 @@ type Recipe = {
   _id: string;
   title: string;
   description: string;
+  imageUrl: string;
 };
 
 export default function RecipesPage() {
@@ -35,18 +36,19 @@ export default function RecipesPage() {
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold mb-6">All Recipes</h1>
-      <ul className="space-y-4">
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Découvrir des recettes</h1>
+      <div className="flex flex-row flex-wrap gap-4">
         {recipes.map((recipe) => (
-          <li key={recipe._id} className="border p-4 rounded shadow-sm">
-            <Link href={`/recipes/${recipe._id}`}>
+          <Link key={recipe._id} href={`/recipes/${recipe._id}`}>
+            <div className="border p-4 rounded shadow-sm h-max-16">
+              <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-48 object-cover rounded mb-4" />
               <h2 className="text-xl font-semibold hover:underline">{recipe.title}</h2>
-            </Link>
-            <p className="text-gray-600">{recipe.description}</p>
-          </li>
+              <p className="text-gray-600">{recipe.description}</p>
+            </div>
+          </Link>
         ))}
-      </ul>
-    </main>
+      </div>
+    </div>
   );
 }
