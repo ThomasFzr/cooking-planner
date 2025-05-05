@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -12,9 +13,12 @@ type Recipe = {
 };
 
 export default function RecipesPage() {
+  const { data: session } = useSession();
+
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [favoritedRecipes, setFavoritedRecipes] = useState<Set<string>>(new Set()); // Set of recipe IDs that are favorited
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -33,6 +37,44 @@ export default function RecipesPage() {
     fetchRecipes();
   }, []);
 
+  const handleFavoriteClick = async (recipeId: string) => {
+    if (!session) {
+      alert('You must be logged in to favorite a recipe');
+      return;
+    }
+
+    const isFavorited = favoritedRecipes.has(recipeId);
+
+    // Optimistically update UI
+    setFavoritedRecipes((prev) => {
+      const updated = new Set(prev);
+      if (isFavorited) {
+        updated.delete(recipeId);
+      } else {
+        updated.add(recipeId);
+      }
+      return updated;
+    });
+
+    // Make API call to add/remove the recipe from the user's favorites
+    try {
+      const method = isFavorited ? 'DELETE' : 'POST';
+      const res = await fetch(`/api/favorite/${recipeId}`, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to update favorites');
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert('Failed to update recipe favorites');
+    }
+  };
+
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
 
@@ -41,8 +83,8 @@ export default function RecipesPage() {
       <h1 className="text-3xl font-bold mb-6">Découvrir des recettes</h1>
       <div className="flex flex-row flex-wrap gap-4">
         {recipes.map((recipe) => (
-          <Link key={recipe._id} href={`/recipes/${recipe._id}`}>
-            <div className="flex flex-col items-center justify-center border p-4 rounded-2xl shadow-sm h-[400px] w-[250px]">
+          <div key={recipe._id} className="flex flex-col items-center justify-center border p-4 rounded-2xl shadow-sm h-[400px] w-[250px]">
+            <Link href={`/recipes/${recipe._id}`}>
               <img
                 src={recipe.imageUrl}
                 alt={recipe.title}
@@ -50,17 +92,21 @@ export default function RecipesPage() {
               />
               <div className="relative w-full text-center mb-2">
                 <h2 className="text-xl font-semibold hover:underline">{recipe.title}</h2>
-                <button className="absolute right-0 top-1/2 -translate-y-1/2">❤️</button>
               </div>
-              <div className="text-sm text-gray-500 min-h-[20px]">
-                {recipe.time ? (
-                  <span>
-                    <span>{recipe.time}</span> minutes
-                  </span>
-                ) : null}
-              </div>
+            </Link>
+            <div className="text-sm text-gray-500 min-h-[20px]">
+              {recipe.time && <span>{recipe.time} minutes</span>}
             </div>
-          </Link>
+
+            {/* Heart Button for adding to favorites */}
+            <button
+              className=" right-2 top-2"
+              onClick={() => handleFavoriteClick(recipe._id)}
+              style={{ color: favoritedRecipes.has(recipe._id) ? 'red' : 'gray' }}
+            >
+              ❤️ {recipe._id}
+            </button>
+          </div>
         ))}
       </div>
     </div>
