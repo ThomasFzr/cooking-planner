@@ -1,31 +1,37 @@
 import { MongoClient } from 'mongodb';
 
-// Ensure that the MongoDB URI is defined
+const uri = process.env.MONGODB_URI!;
+const options = {};
+
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
+
+declare global {
+  var _mongoClientPromise: Promise<MongoClient>;
+}
+
 if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-// Create a global MongoClient instance
-const mongoClient = new MongoClient(process.env.MONGODB_URI);
-
-let cachedClient: MongoClient | null = null;
-let cachedDb: any = null;
-
-const connectToDatabase = async () => {
-  // If the client and database are cached, return them
-  if (cachedClient && cachedDb) {
-    return { db: cachedDb, client: cachedClient };
+// Use global caching in development to prevent hot reload issues
+if (process.env.NODE_ENV === 'development') {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
   }
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
 
-  // Otherwise, connect to the database and cache the client and db
-  const client = await mongoClient.connect();
-  const db = client.db(process.env.MONGODB_DB); // You can specify the database name here if needed
-  
-  // Cache the client and db
-  cachedClient = client;
-  cachedDb = db;
+// ✅ Default export for NextAuth adapter
+export default clientPromise;
 
+// ✅ Named export for your own queries
+export const connectToDatabase = async () => {
+  const client = await clientPromise;
+  const db = client.db(process.env.MONGODB_DB); // optional: specify DB name
   return { db, client };
 };
-
-export { connectToDatabase };
