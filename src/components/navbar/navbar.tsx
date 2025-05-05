@@ -8,7 +8,9 @@ export const Navbar = () => {
 
     return (
         <div className="w-full flex flex-row justify-between items-center p-4 text-3xl pb-16 font-bold">
-            <Link href="/">Home</Link>
+            <Link href="/">
+                <img src="/images/cooking_planner_logo2.png" alt="logo" className="w-25 h-25" />
+            </Link>
             <Link href="/recipes">Explorer des recettes</Link>
             {session ? (
                 <>
