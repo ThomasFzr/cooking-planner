@@ -20,9 +20,9 @@ const DroppedRecipes = ({ droppedRecipes }: DroppedRecipesProps) => {
       {droppedRecipes.length === 0 ? (
         <p className="text-gray-500">Drag recipes here!</p>
       ) : (
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap flex-row justify-center gap-4">
           {droppedRecipes.map((recipe) => (
-            <div key={recipe._id} className="border p-4 rounded-sm shadow-sm flex flex-col items-center w-64">
+            <div key={recipe._id} className="border p-4 rounded-sm shadow-sm flex flex-row items-center w-64">
               <img
                 src={recipe.imageUrl}
                 alt={recipe.title}
