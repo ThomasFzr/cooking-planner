@@ -93,11 +93,11 @@ const Page = () => {
     <div className="w-full flex flex-row items-center justify-center">
       {session ?
         <>
-          {loading && <p>Loading favorites...</p>}
+          {loading && <p className="text-4xl">Loading favorites...</p>}
           {error && <p className="text-red-500">{error}</p>}
 
           {!loading && favoritedRecipes.length === 0 && (
-            <p className="mt-4 text-gray-500">No favorite recipes found.</p>
+            <p className="mt-4 text-gray-500">Aucune recette ajoutée en favoris.</p>
           )}
           <div className="flex flex-row flex-wrap justify-center items-center gap-4">
             {favoritedRecipes.map((recipe) => (
