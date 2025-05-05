@@ -14,7 +14,7 @@ type Recipe = {
 
 export default function RecipesPage() {
   const { data: session } = useSession();
-
+  
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +36,26 @@ export default function RecipesPage() {
 
     fetchRecipes();
   }, []);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (session) {
+        try {
+          const res = await fetch('/api/favorites');
+          if (!res.ok) {
+            throw new Error(`Failed to fetch favorites: ${res.status} ${res.statusText}`);
+          }
+          const data = await res.json();
+          setFavoritedRecipes(new Set(data)); // Update favorited recipes with the response
+        } catch (err: any) {
+          console.error("Error fetching favorites:", err);
+          alert('Failed to fetch favorites');
+        }
+      }
+    };
+  
+    fetchFavorites();
+  }, [session]);
 
   const handleFavoriteClick = async (recipeId: string) => {
     if (!session) {
@@ -59,7 +79,7 @@ export default function RecipesPage() {
     // Make API call to add/remove the recipe from the user's favorites
     try {
       const method = isFavorited ? 'DELETE' : 'POST';
-      const res = await fetch(`/api/favorite/${recipeId}`, {
+      const res = await fetch(`/api/favorites/${recipeId}`, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -98,13 +118,13 @@ export default function RecipesPage() {
               {recipe.time && <span>{recipe.time} minutes</span>}
             </div>
 
-            {/* Heart Button for adding to favorites */}
+            {/* Heart Button for adding/removing from favorites */}
             <button
-              className=" right-2 top-2"
+              className="right-2 top-2"
               onClick={() => handleFavoriteClick(recipe._id)}
               style={{ color: favoritedRecipes.has(recipe._id) ? 'red' : 'gray' }}
             >
-              ❤️ {recipe._id}
+              {favoritedRecipes.has(recipe._id) ? '❤️' : '🤍'}
             </button>
           </div>
         ))}
