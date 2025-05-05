@@ -8,6 +8,7 @@ type Recipe = {
   title: string;
   description: string;
   imageUrl: string;
+  time: string;
 };
 
 export default function RecipesPage() {
@@ -41,9 +42,23 @@ export default function RecipesPage() {
       <div className="flex flex-row flex-wrap gap-4">
         {recipes.map((recipe) => (
           <Link key={recipe._id} href={`/recipes/${recipe._id}`}>
-            <div className="border p-4 rounded-sm shadow-sm">
-              <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-64 w-64 object-cover rounded mb-4" />
-              <h2 className="text-xl font-semibold hover:underline">{recipe.title}</h2>
+            <div className="flex flex-col items-center justify-center border p-4 rounded-2xl shadow-sm h-[400px] w-[250px]">
+              <img
+                src={recipe.imageUrl}
+                alt={recipe.title}
+                className="w-full h-64 object-cover rounded mb-4"
+              />
+              <div className="relative w-full text-center mb-2">
+                <h2 className="text-xl font-semibold hover:underline">{recipe.title}</h2>
+                <button className="absolute right-0 top-1/2 -translate-y-1/2">❤️</button>
+              </div>
+              <div className="text-sm text-gray-500 min-h-[20px]">
+                {recipe.time ? (
+                  <span>
+                    <span>{recipe.time}</span> minutes
+                  </span>
+                ) : null}
+              </div>
             </div>
           </Link>
         ))}
