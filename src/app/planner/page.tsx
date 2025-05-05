@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import RecipeCard from '@/components/RecipeCard/RecipeCard';
 
@@ -93,23 +93,24 @@ const Page = () => {
     <div className="w-full flex flex-row items-center justify-center">
       {session ?
         <>
-          <button onClick={() => signOut()}>Se déco</button>
           {loading && <p>Loading favorites...</p>}
           {error && <p className="text-red-500">{error}</p>}
 
           {!loading && favoritedRecipes.length === 0 && (
             <p className="mt-4 text-gray-500">No favorite recipes found.</p>
           )}
-
-          {favoritedRecipes.map((recipe) => (
-            console.log(recipe),
-            <RecipeCard
-              key={recipe._id}
-              recipe={recipe}
-              favoritedRecipes={favoritedRecipesIds}
-              onFavoriteClick={handleFavoriteClick}
-            />
-          ))}</>
+          <div className="flex flex-row flex-wrap justify-center items-center gap-4">
+            {favoritedRecipes.map((recipe) => (
+              console.log(recipe),
+              <RecipeCard
+                key={recipe._id}
+                recipe={recipe}
+                favoritedRecipes={favoritedRecipesIds}
+                onFavoriteClick={handleFavoriteClick}
+              />
+            ))}
+          </div>
+        </>
         : <span>Connecter vous pour voir vos favoris</span>}
 
 

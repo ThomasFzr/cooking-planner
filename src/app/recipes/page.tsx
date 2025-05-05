@@ -47,7 +47,7 @@ export default function RecipesPage() {
           }
           const data = await res.json();
           const recipeIds: Set<string> = new Set(data.map((favorite: { recipe: { _id: string } }) => favorite.recipe._id));
-console.log(data);
+          console.log(data);
           setFavoritedRecipes(recipeIds);
         } catch (err: any) {
           console.error("Error fetching favorites:", err);
@@ -101,7 +101,7 @@ console.log(data);
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Découvrir des recettes</h1>
-      <div className="flex flex-row flex-wrap gap-4">
+      <div className="flex flex-row flex-wrap items-center gap-4">
         {recipes.map((recipe) => (
           <RecipeCard
             key={recipe._id}
