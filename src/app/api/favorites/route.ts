@@ -46,8 +46,9 @@ export async function GET(req: NextRequest) {
     },
   ]).toArray();
 
+  // Instead of sending an error message, return an empty array if there are no favorites
   if (favoritesWithRecipes.length === 0) {
-    return NextResponse.json({ message: 'No favorite recipes found' }, { status: 404 });
+    return NextResponse.json([]); // Empty array instead of a message
   }
 
   return NextResponse.json(favoritesWithRecipes);

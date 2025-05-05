@@ -33,7 +33,7 @@ const Page = () => {
         const recipeIds: Set<string> = new Set(data.map((favorite: { recipe: { _id: string } }) => favorite.recipe._id));
         setFavoritedRecipesIds(recipeIds);
 
-        const recipesWithDetails = data.map((favorite: { recipe: Recipe}) => favorite.recipe);
+        const recipesWithDetails = data.map((favorite: { recipe: Recipe }) => favorite.recipe);
         setFavoritedRecipes(recipesWithDetails);
 
       } catch (err) {
@@ -68,7 +68,21 @@ const Page = () => {
       // Refresh the favorite list after update
       const updatedRes = await fetch('/api/favorites');
       const updatedData = await updatedRes.json();
-      setFavoritedRecipes(updatedData);
+
+      // Ensure updatedData is an array before calling map
+      if (Array.isArray(updatedData)) {
+        const updatedRecipes = updatedData.map((favorite: { recipe: Recipe }) => favorite.recipe);
+        setFavoritedRecipes(updatedRecipes);
+
+        // Update favorited recipes' ids in a set as well
+        const updatedRecipeIds = new Set<string>(updatedData.map((favorite: { recipe: { _id: string } }) => favorite.recipe._id));
+        setFavoritedRecipesIds(updatedRecipeIds);
+      } else {
+        // Handle the case where updatedData is not an array (e.g., no favorites left)
+        setFavoritedRecipes([]);
+        setFavoritedRecipesIds(new Set());
+      }
+
     } catch (err) {
       console.error(err);
       alert('Failed to update recipe favorites');
@@ -76,30 +90,29 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
-      {session ? (
-        <button onClick={() => signOut()}>Se déco</button>
-      ) : (
-        <span>You are not logged in</span>
-      )}
+    <div className="w-full flex flex-row items-center justify-center">
+      {session ?
+        <>
+          <button onClick={() => signOut()}>Se déco</button>
+          {loading && <p>Loading favorites...</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-      {loading && <p>Loading favorites...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+          {!loading && favoritedRecipes.length === 0 && (
+            <p className="mt-4 text-gray-500">No favorite recipes found.</p>
+          )}
 
-      {!loading && favoritedRecipes.length === 0 && (
-        <p className="mt-4 text-gray-500">No favorite recipes found.</p>
-      )}
+          {favoritedRecipes.map((recipe) => (
+            console.log(recipe),
+            <RecipeCard
+              key={recipe._id}
+              recipe={recipe}
+              favoritedRecipes={favoritedRecipesIds}
+              onFavoriteClick={handleFavoriteClick}
+            />
+          ))}</>
+        : <span>Connecter vous pour voir vos favoris</span>}
 
-      {/* Here's where you use favoriteIds */}
-      {favoritedRecipes.map((recipe) => (
-        console.log(recipe),
-        <RecipeCard
-          key={recipe._id}
-          recipe={recipe}
-          favoritedRecipes={favoritedRecipesIds}
-          onFavoriteClick={handleFavoriteClick}
-        />
-      ))}
+
     </div>
   );
 };
