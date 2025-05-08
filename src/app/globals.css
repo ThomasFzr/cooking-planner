@@ -1,26 +1,7 @@
 @import "tailwindcss";
 
-:root {
-  --background: #8FB996;
-  --foreground: #2E2E2E;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #FA94A8;
-    --foreground: #5e0787;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #FA94A8;
+  color: #5e0787;
   font-family: Anton;
 }
