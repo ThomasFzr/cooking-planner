@@ -49,7 +49,7 @@ export default function RecipePage() {
 
       <div className='w-[80%] flex flex-row justify-center items-center p-4'>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>
-          <Image src={recipe.imageUrl} alt={recipe.title} className="max-h-84 object-cover rounded mb-4" />
+          <Image src={recipe.imageUrl} alt={recipe.title} width={164} height={164} className="max-h-84 object-cover rounded mb-4" />
           <p className="text-gray-700">{recipe.description ?? 'Aucune description disponible.'}</p>
         </div>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>
