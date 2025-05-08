@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from "next-auth/react";
 import Link from 'next/link';
 import Image from "next/image";
 
@@ -16,6 +17,8 @@ type RecipeCardProps = {
 };
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, favoritedRecipes, onFavoriteClick }) => {
+  const { data: session } = useSession();
+
   const { _id, title, imageUrl, time } = recipe;
 
   return (
@@ -37,13 +40,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, favoritedRecipes, onFav
           {time && <span>{time} minutes</span>}
         </div>
       </Link>
-      <button
-        className="right-2 top-2 text-2xl hover:cursor-pointer hover:scale-120 transition-transform duration-200"
-        onClick={() => onFavoriteClick(_id)}
-        style={{ color: favoritedRecipes.has(_id) ? 'red' : 'gray' }}
-      >
-        {favoritedRecipes.has(_id) ? '❤️' : '🤍'}
-      </button>
+      {session ?
+        <button
+          className="right-2 top-2 text-2xl hover:cursor-pointer hover:scale-120 transition-transform duration-200"
+          onClick={() => onFavoriteClick(_id)}
+          style={{ color: favoritedRecipes.has(_id) ? 'red' : 'gray' }}
+        >
+          {favoritedRecipes.has(_id) ? '❤️' : '🤍'}
+        </button>
+        : null
+      }
     </div>
   );
 };

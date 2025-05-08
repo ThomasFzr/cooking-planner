@@ -26,7 +26,7 @@ export default function LoginPage() {
                 onClick={() => signIn("google")}
             >
                 <Image src="/images/sso/google_logo.png" alt="Google logo" width={24} height={24} className="w-8 h-8 mr-2" />
-                <span className="text-2xl font-bold">Sign in with Google</span>
+                <span className="text-2xl font-bold">Se connecter avec Google</span>
             </button>
         </div>
     );
