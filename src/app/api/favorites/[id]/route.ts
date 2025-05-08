@@ -43,19 +43,15 @@ export async function POST(req: NextRequest) {
 }
 
 // DELETE /api/favorite/[id] - Supprimer une recette des favoris
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  const recipeId = params.id; // récupère l'ID de la recette dans l'URL
+  const recipeId = req.nextUrl.pathname.split('/').pop(); // Extracts the recipeId from the URL
   const userEmail = session.user.email;
-
-  if (!ObjectId.isValid(recipeId)) {
-    return NextResponse.json({ message: 'Invalid recipe ID' }, { status: 400 });
-  }
 
   const { db } = await connectToDatabase();
   const user = await db.collection('users').findOne({ email: userEmail });
