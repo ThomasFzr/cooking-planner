@@ -30,7 +30,7 @@ export default function RecipesPage() {
       <div className="w-[50%] relative">
         <div className="h-132 w-132 absolute z-[-1] rounded-full bg-[#FEE4CC] flex items-center justify-center shadow m-2" />
         <div className="h-100 w-100 absolute z-[-1] top-[4.5rem] left-[5.5rem] rounded-full bg-[#FA94A8] flex items-center justify-center shadow m-2" />
-        <Image alt='image of a meal' height={128} width={100} className='h-128' src='/images/meal.png' />
+        <Image alt='image of a meal' height={128} width={250} className='h-128' src='/images/meal.png' />
       </div>
     </div>
   );
