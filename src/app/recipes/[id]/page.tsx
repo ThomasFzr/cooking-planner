@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Image from "next/image";
 
 type Recipe = {
   _id: string;
@@ -24,8 +25,12 @@ export default function RecipePage() {
         if (!res.ok) throw new Error('Failed to fetch recipe');
         const data = await res.json();
         setRecipe(data);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Unknown error');
+        }
       } finally {
         setLoading(false);
       }
@@ -44,7 +49,7 @@ export default function RecipePage() {
 
       <div className='w-[80%] flex flex-row justify-center items-center p-4'>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>
-          <img src={recipe.imageUrl} alt={recipe.title} className="max-h-84 object-cover rounded mb-4" />
+          <Image src={recipe.imageUrl} alt={recipe.title} className="max-h-84 object-cover rounded mb-4" />
           <p className="text-gray-700">{recipe.description ?? 'Aucune description disponible.'}</p>
         </div>
         <div className='w-[40%] flex flex-col justify-center items-center p-4'>

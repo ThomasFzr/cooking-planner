@@ -2,6 +2,7 @@
 'use client'
 
 import React from 'react'
+import Image from "next/image";
 
 type Recipe = {
   _id: string;
@@ -23,7 +24,7 @@ const DroppedRecipes = ({ droppedRecipes }: DroppedRecipesProps) => {
         <div className="flex flex-wrap flex-row justify-center gap-4">
           {droppedRecipes.map((recipe) => (
             <div key={recipe._id} className="border p-4 rounded-sm shadow-sm flex flex-row items-center w-64">
-              <img
+              <Image
                 src={recipe.imageUrl}
                 alt={recipe.title}
                 className="w-full h-64 object-cover rounded mb-4"

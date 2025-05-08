@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from "next/image";
 
 type RecipeCardProps = {
   recipe: {
@@ -20,11 +21,15 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, favoritedRecipes, onFav
   return (
     <div className="flex flex-col items-center justify-center border p-4 rounded-2xl shadow-sm h-[400px] w-[250px]">
       <Link href={`/recipes/${_id}`} className="w-full h-full">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="w-full h-64 object-cover rounded mb-4"
-        />
+
+        <div className="relative w-[14rem] h-[14rem]">
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover object-center rounded mb-4 "
+          />
+        </div>
         <div className="relative w-full text-center mb-2">
           <h2 className="text-xl font-semibold hover:underline">{title}</h2>
         </div>
