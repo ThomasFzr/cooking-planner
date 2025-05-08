@@ -6,16 +6,18 @@ const options = {};
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
+// ✅ Étend le type de globalThis
 declare global {
-  const _mongoClientPromise: Promise<MongoClient>;
+  // eslint-disable-next-line no-var
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-// Use global caching in development to prevent hot reload issues
 if (process.env.NODE_ENV === 'development') {
+  // ✅ Utilise globalThis pour TypeScript
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri, options);
     global._mongoClientPromise = client.connect();
@@ -26,12 +28,10 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect();
 }
 
-// ✅ Default export for NextAuth adapter
 export default clientPromise;
 
-// ✅ Named export for your own queries
 export const connectToDatabase = async () => {
   const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB); // optional: specify DB name
+  const db = client.db(process.env.MONGODB_DB);
   return { db, client };
 };
