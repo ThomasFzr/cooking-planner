@@ -10,7 +10,7 @@ export const Navbar = () => {
     return (
         <div className="w-full flex flex-row justify-between items-center p-4 text-3xl pb-16 font-bold">
             <Link href="/">
-                <Image src="/images/cooking_planner_logo2.png" alt="logo" width={74} height={74} />
+                <Image src="/images/cooking_planner_logo2.png" alt="logo" width={100} height={100} />
             </Link>
             <Link href="/recipes">Explorer des recettes</Link>
             {session ? (
@@ -18,7 +18,7 @@ export const Navbar = () => {
                     <Link href="/planner">Mes recettes</Link>
                     {/* <Link href="/my-cart">Mon panier</Link> */}
                     <Link href="/profile">
-                        <Image src='/images/profile.png' alt="profile" width={24} height={24} />
+                        <Image src='/images/profile.png' alt="profile" width={50} height={50} />
                     </Link>
                 </>
             ) : (
