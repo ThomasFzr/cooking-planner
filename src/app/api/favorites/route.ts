@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
 // GET /api/favorites - Fetch all user's favorite recipes with details
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {

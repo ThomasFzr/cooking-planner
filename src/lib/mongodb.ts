@@ -7,7 +7,7 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  const _mongoClientPromise: Promise<MongoClient>;
 }
 
 if (!process.env.MONGODB_URI) {

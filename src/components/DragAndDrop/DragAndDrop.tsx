@@ -31,8 +31,12 @@ export default function DragAndDrop() {
         if (!res.ok) throw new Error('Failed to fetch recipes')
         const data = await res.json()
         setRecipes(data)
-      } catch (err: any) {
-        setError(err.message || 'Unknown error')
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError('Unknown error')
+        }
       } finally {
         setLoading(false)
       }
@@ -41,7 +45,7 @@ export default function DragAndDrop() {
     fetchRecipes()
   }, [])
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: import('@dnd-kit/core').DragEndEvent) => {
     const droppedRecipe = recipes.find(recipe => recipe._id === event.active.id)
     if (droppedRecipe) {
       // Add the dropped recipe to the droppedRecipes state

@@ -27,8 +27,12 @@ export default function RecipesPage() {
         if (!res.ok) throw new Error('Failed to fetch recipes');
         const data = await res.json();
         setRecipes(data);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Unknown error');
+        }
       } finally {
         setLoading(false);
       }
@@ -49,8 +53,12 @@ export default function RecipesPage() {
           const recipeIds: Set<string> = new Set(data.map((favorite: { recipe: { _id: string } }) => favorite.recipe._id));
           console.log(data);
           setFavoritedRecipes(recipeIds);
-        } catch (err: any) {
-          console.error("Error fetching favorites:", err);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            console.error("Error fetching favorites:", err.message);
+          } else {
+            console.error("Error fetching favorites:", err);
+          }
           alert('Failed to fetch favorites');
         }
       }
@@ -89,8 +97,12 @@ export default function RecipesPage() {
       if (!res.ok) {
         throw new Error('Failed to update favorites');
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
       alert('Failed to update recipe favorites');
     }
   };

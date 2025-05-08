@@ -1,6 +1,8 @@
 'use client';
 
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
+
 export const Page = () => {
 
     const { data: session } = useSession();
@@ -15,11 +17,11 @@ export const Page = () => {
                 {session ? (
                     <div className="flex flex-col items-center">
                         <h1 className="text-3xl pb-8">Mon profil</h1>
-                        <img src={session.user?.image ?? ''} alt="profile image" className="w-20 h-20 rounded-full" />
+                        <Image src={session.user?.image ?? ''} alt="profile image" className="w-20 h-20 rounded-full" />
                         <p>Email: {session.user?.email}</p>
                         <p>Nom: {session.user?.name}</p>
                         <button onClick={() => signOut()} className="bg-[#5e0787] text-white px-4 py-2 rounded mt-4 flex flex-row items-center hover:cursor-pointer">
-                            <img src='/images/logout.png' alt="logout" className="w-5 h-5 mr-2"/>
+                            <Image src='/images/logout.png' alt="logout" className="w-5 h-5 mr-2"/>
                             Se déconnecter
                         </button>
                     </div>

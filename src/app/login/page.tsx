@@ -3,6 +3,7 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from "next/image";
 
 export const Page = () => {
     const { data: session } = useSession();
@@ -24,7 +25,7 @@ export const Page = () => {
                 className="flex flex-row hover:cursor-pointer border rounded-full p-4"
                 onClick={() => signIn("google")}
             >
-                <img src="/images/sso/google_logo.png" alt="Google logo" className="w-8 h-8 mr-2" />
+                <Image src="/images/sso/google_logo.png" alt="Google logo" width={24} height={24} className="w-8 h-8 mr-2" />
                 <span className="text-2xl font-bold">Sign in with Google</span>
             </button>
         </div>

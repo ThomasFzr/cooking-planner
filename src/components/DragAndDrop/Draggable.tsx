@@ -3,6 +3,7 @@
 
 import React from 'react'
 import { useDraggable } from '@dnd-kit/core'
+import Image from "next/image";
 
 type Recipe = {
   _id: string;
@@ -32,7 +33,7 @@ export const Draggable = ({ id, recipe }: DraggableProps) => {
       style={style}
       className="border p-4 rounded-sm shadow-sm flex flex-col items-center w-64"
     >
-      <img
+      <Image
         src={recipe.imageUrl}
         alt={recipe.title}
         className="w-full h-64 object-cover rounded mb-4"

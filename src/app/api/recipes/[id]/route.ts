@@ -18,6 +18,7 @@ export async function GET(
 
     return NextResponse.json(recipe);
   } catch (error) {
+    console.error(error); 
     return NextResponse.json({ error: 'Failed to fetch recipe' }, { status: 500 });
   }
 }

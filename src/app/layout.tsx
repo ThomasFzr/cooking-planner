@@ -3,7 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { AuthSessionProvider } from "@/components/AuthSession/AuthSession";
+// import { Anton } from "next/font/google";
 
+// const anton = Anton({
+//   variable: "--font-anton",
+//   subsets: ["latin"],
+// });
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

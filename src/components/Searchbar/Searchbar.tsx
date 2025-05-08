@@ -2,22 +2,8 @@
 
 import { useState } from "react";
 
-const items = [
-  "Apple",
-  "Banana",
-  "Orange",
-  "Grape",
-  "Pineapple",
-  "Mango",
-  "Strawberry",
-];
-
 export default function Searchbar() {
   const [query, setQuery] = useState<string>("");
-
-  const filteredItems = items.filter((item) =>
-    item.toLowerCase().includes(query.toLowerCase())
-  );
 
   return (
     <div className="p-8">
