@@ -1,8 +1,7 @@
-export const Page = () => {
+export default function MyCartPage (){
     return (
       <div>
         Mon panier
       </div>
     );
   }
-  export default Page;

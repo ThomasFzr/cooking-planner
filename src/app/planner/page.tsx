@@ -12,7 +12,7 @@ type Recipe = {
   time: string;
 };
 
-const Page = () => {
+export default function PlannerPage() {
   const { data: session } = useSession();
   const [favoritedRecipes, setFavoritedRecipes] = useState<Recipe[]>([]);
   const [favoritedRecipesIds, setFavoritedRecipesIds] = useState<Set<string>>(new Set());
@@ -118,4 +118,3 @@ const Page = () => {
   );
 };
 
-export default Page;
