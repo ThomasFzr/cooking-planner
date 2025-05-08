@@ -17,7 +17,7 @@ export const Page = () => {
                 {session ? (
                     <div className="flex flex-col items-center">
                         <h1 className="text-3xl pb-8">Mon profil</h1>
-                        <Image src={session.user?.image ?? ''} alt="profile image" className="w-20 h-20 rounded-full" />
+                        <Image src={session.user?.image ?? ''} alt="profile image" width={60} height={60} className="w-20 h-20 rounded-full" />
                         <p>Email: {session.user?.email}</p>
                         <p>Nom: {session.user?.name}</p>
                         <button onClick={() => signOut()} className="bg-[#5e0787] text-white px-4 py-2 rounded mt-4 flex flex-row items-center hover:cursor-pointer">

@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest
 ) {
   try {
     const { db } = await connectToDatabase();
-    const id = params.id;
+    const id = req.nextUrl.pathname.split('/').pop();
 
     const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(id) });
 
