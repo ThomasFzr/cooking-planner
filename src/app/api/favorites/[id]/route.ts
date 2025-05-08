@@ -5,19 +5,15 @@ import { authOptions } from '@/lib/auth';
 import { ObjectId } from 'mongodb';
 
 // POST /api/favorite/[id] - Ajouter une recette aux favoris
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  const recipeId = params.id; // récupère l'ID de la recette dans l'URL
+  const recipeId = req.nextUrl.pathname.split('/').pop(); // Extracts the recipeId from the URL
   const userEmail = session.user.email;
-
-  if (!ObjectId.isValid(recipeId)) {
-    return NextResponse.json({ message: 'Invalid recipe ID' }, { status: 400 });
-  }
 
   const { db } = await connectToDatabase();
   const user = await db.collection('users').findOne({ email: userEmail });
