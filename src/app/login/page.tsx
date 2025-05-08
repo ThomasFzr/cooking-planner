@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Image from "next/image";
 
-export const Page = () => {
+export default function LoginPage() {
     const { data: session } = useSession();
     const router = useRouter();
 
@@ -20,7 +20,7 @@ export const Page = () => {
     }
 
     return (
-        <div className="w-full h-[100%] flex flex-row items-center justify-center">
+        <div className="w-full h-full flex flex-row items-center justify-center">
             <button
                 className="flex flex-row hover:cursor-pointer border rounded-full p-4"
                 onClick={() => signIn("google")}
@@ -30,6 +30,4 @@ export const Page = () => {
             </button>
         </div>
     );
-};
-
-export default Page;
+}
