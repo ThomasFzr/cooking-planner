@@ -1,5 +1,4 @@
 import Searchbar from "@/components/Searchbar/Searchbar";
-import Image from "next/image";
 
 const imagesUrl = {
   'poulet': '/images/chicken.png',
@@ -12,7 +11,7 @@ export default function RecipesPage() {
   return (
     <div className="w-full flex flex-row items-center justify-center">
       <div className="flex flex-col items-center justify-center w-[50%]">
-        <h1>LES MEILLEURES RECETTES</h1>
+        <h1 className="text-5xl">LES MEILLEURES RECETTES</h1>
         <div className="flex flex-row items-center justify-center">
           {Object.entries(imagesUrl).map(([key, url], index) => (
             <div className="flex flex-col bg-[#FEE4CC] border rounded-full h-48 w-20 items-center justify-center m-2 " key={index}>
@@ -23,14 +22,12 @@ export default function RecipesPage() {
             </div>
           ))}
         </div>
-        <div>
+        <div className="w-full pl-8 pr-8">
           <Searchbar />
         </div>
-      </div>
+      </div>  
       <div className="w-[50%] relative">
-        <div className="h-132 w-132 absolute z-[-1] rounded-full bg-[#FEE4CC] flex items-center justify-center shadow m-2" />
-        <div className="h-100 w-100 absolute z-[-1] top-[4.5rem] left-[5.5rem] rounded-full bg-[#FA94A8] flex items-center justify-center shadow m-2" />
-        <Image alt='image of a meal' height={256} width={256} src='/images/meal.png' />
+        <img className="rounded-2xl p-4" alt='image of a woman cooking' src='/images/woman2.png'/>
       </div>
     </div>
   );
