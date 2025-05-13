@@ -17,7 +17,7 @@ export default function RecipesPage() {
           {Object.entries(imagesUrl).map(([key, url], index) => (
             <div className="flex flex-col bg-[#FEE4CC] border rounded-full h-48 w-20 items-center justify-center m-2 " key={index}>
               <div className="h-24 w-24 rounded-full hover:bg-[#FEE4CC] flex items-center justify-center shadow m-2">
-                <Image height={48} width={48} className="rounded-full" src={url} alt={`Image of ${key}`} />
+                <img className="rounded-full" src={url} alt={`Image of ${key}`} />
               </div>
               <span>{key.toUpperCase()}</span>
             </div>
